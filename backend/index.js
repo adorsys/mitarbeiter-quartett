@@ -1,14 +1,15 @@
-var express = require('express');
-var http = require('http');
-var app = express();
+const express = require('express');
+const http = require('http');
 
-var router = express.Router();
+const app = express();
+
+const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send("hello world");
-})
+  res.send('hello world');
+});
 
 app.use('/', router);
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 server.listen(8000);
