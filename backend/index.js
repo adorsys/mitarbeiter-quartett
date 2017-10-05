@@ -1,8 +1,9 @@
-<<<<<<< HEAD
 var express = require('express');
+var bodyParser = require('body-parser');
 var http = require('http');
-// var AWS = require('aws-sdk');
 var dynamoose = require('dynamoose');
+var uuid = require('uuid');
+var schema = require('./schema');
 
 dynamoose.local();
 dynamoose.AWS.config.update({
@@ -11,46 +12,48 @@ dynamoose.AWS.config.update({
     region: 'us-east-1'
 });
 
-// Create cat model with default options
-var Cat = dynamoose.model('Cat', { id: Number, name: String });
-
-// Create a new cat object
-var garfield = new Cat({ id: 666, name: 'Garfield' });
-
-// Save to DynamoDB
-garfield.save();
+// Create employee model with default options
+var Employee = dynamoose.model('Employee', schema.employee);
 
 var app = express();
-=======
-const express = require('express');
-const http = require('http');
->>>>>>> 25b6f214335d19d63869f0ca8fe8a715aa3b50ef
 
-const app = express();
+var employeeRouter = express.Router();
 
-const router = express.Router();
-
-router.get('/', (req, res) => {
-<<<<<<< HEAD
-    // Lookup Cat model and get cat with id: 666 in DynamoDB
-    Cat.get(666)
-        .then(function(badCat) {
-            res.send('Never trust a smiling cat. - ' + badCat.name);
-        }).catch(error => {
-            res.send(error);
-        });
+employeeRouter.get('/', (req, res) => {
+    res.setHeader('Content.Type', 'application/json');
+    res.send(Employee);
 })
 
-app.use('/', router);
+employeeRouter.post('/', (req, res) => {
+
+    let newSkills = new Array();
+    for (let i = 0; i < req.body.skills.length; i++) {
+        newSkills.push(req.body.skills[i]);
+    }
+    var empl = new Employee({
+        imgUrl: req.body.imgUrl,
+        uuid: uuid.v4(),
+        name: req.body.name,
+        contact: {
+            short: req.body.contact.short,
+            email: req.body.contact.email,
+            phone: req.body.contact.phone
+        },
+        skills: newSkills,
+        customerContact: req.body.customerContact
+    });
+
+    empl.save().then(savedEmpl => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(201).send(JSON.stringify(savedEmpl))
+    }).catch(error => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(error);
+    });
+})
+
+app.use(bodyParser.json());
+app.use('/v1/employees', employeeRouter);
 
 var server = http.createServer(app);
 server.listen(9000);
-=======
-  res.send('hello world');
-});
-
-app.use('/', router);
-
-const server = http.createServer(app);
-server.listen(8000);
->>>>>>> 25b6f214335d19d63869f0ca8fe8a715aa3b50ef
