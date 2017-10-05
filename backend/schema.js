@@ -1,8 +1,16 @@
-var dynamoose = require('dynamoose');
+const dynamoose = require('dynamoose');
+const uuid = require('uuid');
 
 var employee = new dynamoose.Schema({
-    uuid: String,
-    imgUrl: String,
+    uuid: {
+        type: String,
+        hashKey: true,
+        default: uuid.v4()
+    },
+    imgUrl: {
+        type: String,
+        required: false
+    },
     name: String,
     contact: {
         short: String, // Kürzel

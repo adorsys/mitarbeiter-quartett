@@ -2,7 +2,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
 var dynamoose = require('dynamoose');
-var uuid = require('uuid');
 var schema = require('./schema');
 
 dynamoose.local();
@@ -40,7 +39,6 @@ employeeRouter.post('/', (req, res) => {
     }
     var empl = new Employee({
         imgUrl: req.body.imgUrl,
-        uuid: uuid.v4(),
         name: req.body.name,
         contact: {
             short: req.body.contact.short,
@@ -51,9 +49,8 @@ employeeRouter.post('/', (req, res) => {
         customerContact: req.body.customerContact
     });
 
-    console.log(empl);
-
     empl.save((err) => {
+        console.log(empl);
         if (err) {
             res.setHeader('Content.Type', 'application/json');
             res.status(500).send(err);
