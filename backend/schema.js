@@ -1,9 +1,8 @@
 var dynamoose = require('dynamoose');
 
 var employee = new dynamoose.Schema({
-    id: Number,
-    imgUrl: String,
     uuid: String,
+    imgUrl: String,
     name: String,
     contact: {
         short: String, // Kürzel

@@ -20,8 +20,16 @@ var app = express();
 var employeeRouter = express.Router();
 
 employeeRouter.get('/', (req, res) => {
-    res.setHeader('Content.Type', 'application/json');
-    res.send(Employee);
+
+    Employee.scan().exec((err, data) => {
+        if (err) {
+            res.setHeader('Content.Type', 'application/json');
+            res.status(500).send(err);
+        } else {
+            res.setHeader('Content.Type', 'application/json');
+            res.status(200).send(data);
+        }
+    });
 })
 
 employeeRouter.post('/', (req, res) => {
@@ -43,13 +51,17 @@ employeeRouter.post('/', (req, res) => {
         customerContact: req.body.customerContact
     });
 
-    empl.save().then(savedEmpl => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(201).send(JSON.stringify(savedEmpl))
-    }).catch(error => {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(error);
-    });
+    console.log(empl);
+
+    empl.save((err) => {
+        if (err) {
+            res.setHeader('Content.Type', 'application/json');
+            res.status(500).send(err);
+        } else {
+            res.setHeader('Content.Type', 'application/json');
+            res.status(201).send(empl);
+        }
+    })
 })
 
 app.use(bodyParser.json());
