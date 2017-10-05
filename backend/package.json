@@ -1,17 +1,23 @@
 {
-  "name": "mitarbeiter-quartett-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "aws-sdk": "^2.127.0",
-    "dynamoose": "^0.8.5",
-    "express": "^4.16.1"
-  }
+
+    "name": "mitarbeiter-quartett-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "aws-sdk": "^2.127.0",
+        "dynamoose": "^0.8.5",
+        "express": "^4.16.1"
+    },
+    "devDependencies": {
+        "eslint": "^4.8.0",
+        "eslint-config-airbnb-base": "^12.0.2",
+        "eslint-plugin-import": "^2.7.0"
+    }
 }

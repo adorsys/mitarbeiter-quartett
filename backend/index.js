@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var express = require('express');
 var http = require('http');
 // var AWS = require('aws-sdk');
@@ -20,10 +21,17 @@ var garfield = new Cat({ id: 666, name: 'Garfield' });
 garfield.save();
 
 var app = express();
+=======
+const express = require('express');
+const http = require('http');
+>>>>>>> 25b6f214335d19d63869f0ca8fe8a715aa3b50ef
 
-var router = express.Router();
+const app = express();
+
+const router = express.Router();
 
 router.get('/', (req, res) => {
+<<<<<<< HEAD
     // Lookup Cat model and get cat with id: 666 in DynamoDB
     Cat.get(666)
         .then(function(badCat) {
@@ -37,3 +45,12 @@ app.use('/', router);
 
 var server = http.createServer(app);
 server.listen(9000);
+=======
+  res.send('hello world');
+});
+
+app.use('/', router);
+
+const server = http.createServer(app);
+server.listen(8000);
+>>>>>>> 25b6f214335d19d63869f0ca8fe8a715aa3b50ef
