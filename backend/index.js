@@ -1,8 +1,8 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var http = require('http');
-var dynamoose = require('dynamoose');
-var schema = require('./schema');
+const express = require('express');
+const bodyParser = require('body-parser');
+const http = require('http');
+const dynamoose = require('dynamoose');
+const schema = require('./schema');
 
 dynamoose.local();
 dynamoose.AWS.config.update({
@@ -12,32 +12,42 @@ dynamoose.AWS.config.update({
 });
 
 // Create employee model with default options
-var Employee = dynamoose.model('Employee', schema.employee);
+const Employee = dynamoose.model('Employee', schema.employee);
 
-var app = express();
+const app = express();
 
-var employeeRouter = express.Router();
+const employeeRouter = express.Router();
 
 employeeRouter.get('/', (req, res) => {
 
     Employee.scan().exec((err, data) => {
+        res.setHeader('Content.Type', 'application/json');
         if (err) {
-            res.setHeader('Content.Type', 'application/json');
             res.status(500).send(err);
         } else {
-            res.setHeader('Content.Type', 'application/json');
             res.status(200).send(data);
         }
     });
-})
+});
+
+employeeRouter.get('/:uuid', (req, res) => {
+    Employee.get({uuid: req.params.uuid}, (err, data) => {
+        res.setHeader('Content.Type', 'application/json');
+        if(err) {
+           res.status(500).send(err);
+        } else {
+            res.status(200).send(data);
+        }
+    });
+});
 
 employeeRouter.post('/', (req, res) => {
 
-    let newSkills = new Array();
+    let newSkills = [];
     for (let i = 0; i < req.body.skills.length; i++) {
         newSkills.push(req.body.skills[i]);
     }
-    var empl = new Employee({
+    let empl = new Employee({
         imgUrl: req.body.imgUrl,
         name: req.body.name,
         contact: {
@@ -51,18 +61,17 @@ employeeRouter.post('/', (req, res) => {
 
     empl.save((err) => {
         console.log(empl);
+        res.setHeader('Content.Type', 'application/json');
         if (err) {
-            res.setHeader('Content.Type', 'application/json');
             res.status(500).send(err);
         } else {
-            res.setHeader('Content.Type', 'application/json');
             res.status(201).send(empl);
         }
     })
-})
+});
 
 app.use(bodyParser.json());
 app.use('/v1/employees', employeeRouter);
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 server.listen(9000);

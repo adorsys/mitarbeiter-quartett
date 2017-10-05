@@ -1,7 +1,7 @@
 const dynamoose = require('dynamoose');
 const uuid = require('uuid');
 
-var employee = new dynamoose.Schema({
+const employee = new dynamoose.Schema({
     uuid: {
         type: String,
         hashKey: true,
@@ -31,4 +31,4 @@ var employee = new dynamoose.Schema({
 
 module.exports = {
     employee
-}
+};
