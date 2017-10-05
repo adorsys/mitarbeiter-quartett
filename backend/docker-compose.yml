@@ -1,0 +1,6 @@
+
+  dynamodb:
+    image: dwmkerr/dynamodb
+    ports:
+    - "8000:8000"
+  
