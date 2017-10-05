@@ -10,7 +10,6 @@ dynamoose.AWS.config.update({
     region: 'us-east-1'
 });
 
-
 // Create cat model with default options
 var Cat = dynamoose.model('Cat', { id: Number, name: String });
 
