@@ -71,7 +71,7 @@ employeeRouter.post('/', (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.use('/v1/employees', employeeRouter);
+app.use('/api/v1/employees', employeeRouter);
 
 const server = http.createServer(app);
 server.listen(9000);
